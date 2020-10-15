@@ -1,7 +1,6 @@
 package com.pluralsight.datarest.psguitar.model;
 
 import javax.persistence.*;
-import javax.xml.stream.Location;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -23,12 +22,20 @@ public class Manufacturer {
     private BigDecimal averageYearlySales;
     private Boolean active;
 
-    @OneToMany(cascade=CascadeType.ALL)
-    @JoinColumn(name="manufacturer_id")
-    private List<Model> models = new ArrayList<>();
-
     @ManyToOne
-    private Location headquarters;
+    private Location location;
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
 
     public String getName() {
         return name;
@@ -52,22 +59,6 @@ public class Manufacturer {
 
     public void setAverageYearlySales(BigDecimal averageYearlySales) {
         this.averageYearlySales = averageYearlySales;
-    }
-
-    public List<Model> getModels() {
-        return models;
-    }
-
-    public void setModels(List<Model> models) {
-        this.models = models;
-    }
-
-    public Location getHeadquarters() {
-        return headquarters;
-    }
-
-    public void setHeadquarters(Location headquarters) {
-        this.headquarters = headquarters;
     }
 
     public Long getId() {

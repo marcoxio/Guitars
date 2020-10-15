@@ -13,9 +13,10 @@ public class Location {
     private String state;
     private String country;
 
-    @OneToMany(cascade= CascadeType.ALL)
-    @JoinColumn(name="LOCATION_ID")
-    private List<Manufacturer> manufacturers = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "LOCATION_ID")
+    private List<Manufacturer> manufacturers = new ArrayList<Manufacturer>();
+
 
     public String getState() {
         return state;
@@ -33,15 +34,19 @@ public class Location {
         this.country = country;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public List<Manufacturer> getManufacturers() {
         return manufacturers;
     }
 
     public void setManufacturers(List<Manufacturer> manufacturers) {
         this.manufacturers = manufacturers;
-    }
-
-    public Long getId() {
-        return id;
     }
 }

@@ -21,13 +21,6 @@ public class Model {
     @Column(name = "YEARFIRSTMADE")
     private Date yearFirstMade;
 
-    @ManyToOne
-    private Manufacturer manufacturer;
-
-    @ManyToOne
-    @JoinColumn(name="MODELTYPE_ID")
-    private ModelType modelType;
-
     public String getName() {
         return name;
     }
@@ -68,21 +61,9 @@ public class Model {
         this.yearFirstMade = yearFirstMade;
     }
 
-    public Manufacturer getManufacturer() {
-        return manufacturer;
-    }
 
-    public void setManufacturer(Manufacturer manufacturer) {
-        this.manufacturer = manufacturer;
-    }
 
-    public ModelType getModelType() {
-        return modelType;
-    }
 
-    public void setModelType(ModelType modelType) {
-        this.modelType = modelType;
-    }
 
     public Long getId() {
         return id;
