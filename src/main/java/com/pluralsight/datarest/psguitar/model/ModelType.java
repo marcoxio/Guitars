@@ -16,6 +16,10 @@ public class ModelType {
 
     private String name;
 
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "MODELTYPE_ID")
+    private List<Model> models = new ArrayList<Model>();
+
 
     public String getName() {
         return name;
@@ -27,5 +31,17 @@ public class ModelType {
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public List<Model> getModels() {
+        return models;
+    }
+
+    public void setModels(List<Model> models) {
+        this.models = models;
     }
 }

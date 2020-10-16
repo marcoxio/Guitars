@@ -1,5 +1,7 @@
 package com.pluralsight.datarest.psguitar.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -20,6 +22,14 @@ public class Model {
 
     @Column(name = "YEARFIRSTMADE")
     private Date yearFirstMade;
+
+    @ManyToOne
+    @JoinColumn(name = "MANUFACTURER_ID")
+    private Manufacturer manufacturer;
+
+    @ManyToOne
+    @JoinColumn(name = "MODELTYPE_ID")
+    private ModelType modelType;
 
     public String getName() {
         return name;
@@ -61,11 +71,23 @@ public class Model {
         this.yearFirstMade = yearFirstMade;
     }
 
+    public ModelType getModelType() {
+        return modelType;
+    }
 
-
-
+    public void setModelType(ModelType modelType) {
+        this.modelType = modelType;
+    }
 
     public Long getId() {
         return id;
+    }
+
+    public Manufacturer getManufacturer() {
+        return manufacturer;
+    }
+
+    public void setManufacturer(Manufacturer manufacturer) {
+        this.manufacturer = manufacturer;
     }
 }

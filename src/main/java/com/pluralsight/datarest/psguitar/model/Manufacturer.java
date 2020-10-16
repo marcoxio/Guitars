@@ -1,5 +1,7 @@
 package com.pluralsight.datarest.psguitar.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -7,34 +9,40 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
+@Table(name = "manufacturers")
 public class Manufacturer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @Column(name = "manufacturer_id")
+    private Long manufacturerId;
 
+    @Column(name = "name")
     private String name;
 
-    @Column(name="FOUNDEDDATE")
+    @Column(name="founded_date")
     private Date foundedDate;
 
-    @Column(name="AVERAGEYEARLYSALES")
+    @Column(name="average_yearly_sales")
     private BigDecimal averageYearlySales;
     private Boolean active;
+
+    @OneToMany(mappedBy = "manufacturer", cascade = CascadeType.ALL)
+    private List<Model> models = new ArrayList<Model>();
 
     @ManyToOne
     private Location location;
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setId(Long manufacturerId) {
+        this.manufacturerId = manufacturerId;
     }
 
-    public Location getLocation() {
-        return location;
+    public Long getManufacturerId() {
+        return manufacturerId;
     }
 
-    public void setLocation(Location location) {
-        this.location = location;
+    public void setManufacturerId(Long manufacturerId) {
+        this.manufacturerId = manufacturerId;
     }
 
     public String getName() {
@@ -61,15 +69,27 @@ public class Manufacturer {
         this.averageYearlySales = averageYearlySales;
     }
 
-    public Long getId() {
-        return id;
-    }
-
     public Boolean getActive() {
         return active;
     }
 
     public void setActive(Boolean active) {
         this.active = active;
+    }
+
+    public List<Model> getModels() {
+        return models;
+    }
+
+    public void setModels(List<Model> models) {
+        this.models = models;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
     }
 }

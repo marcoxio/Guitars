@@ -31,8 +31,8 @@ public class ModelRepository {
     /**
      * Delete
      */
-    public void delete(Model mod) {
-        modelJpaRepository.delete(mod);
+    public void delete(Long id) {
+        modelJpaRepository.getOne(id);
     }
 
     /**

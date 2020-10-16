@@ -1,21 +1,28 @@
 package com.pluralsight.datarest.psguitar.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Table(name = "locations")
 public class Location {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    private Long id;
+    @Column(name = "location_id")
+    private Long locationId;
 
+    @Column(name = "state")
     private String state;
+
+    @Column(name = "country")
     private String country;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "LOCATION_ID")
-    private List<Manufacturer> manufacturers = new ArrayList<Manufacturer>();
+    @OneToMany(targetEntity = Manufacturer.class,cascade = CascadeType.ALL)
+    @JoinColumn(name = "location_id")
+    private List<Manufacturer> manufacturers;
 
 
     public String getState() {
@@ -35,11 +42,11 @@ public class Location {
     }
 
     public Long getId() {
-        return id;
+        return locationId;
     }
 
     public void setId(Long id) {
-        this.id = id;
+        this.locationId = id;
     }
 
     public List<Manufacturer> getManufacturers() {

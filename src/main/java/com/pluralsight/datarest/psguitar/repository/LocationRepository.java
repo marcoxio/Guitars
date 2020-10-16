@@ -9,8 +9,12 @@ import java.util.List;
 @Repository
 public class LocationRepository {
 
+    private final LocationJPARepository locationJPARepository;
+
     @Autowired
-    private LocationJPARepository locationJPARepository;
+    public LocationRepository(LocationJPARepository locationJPARepository) {
+        this.locationJPARepository = locationJPARepository;
+    }
 
     /**
      * Create
