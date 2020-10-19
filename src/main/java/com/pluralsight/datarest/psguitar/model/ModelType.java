@@ -7,18 +7,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "MODELTYPE")
+@Table(name = "model_types")
 public class ModelType {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    private Long id;
+    @Column(name = "model_type_id")
+    private Long modelTypeId;
 
+    @Column(name = "name")
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "MODELTYPE_ID")
-    private List<Model> models = new ArrayList<Model>();
+    @OneToMany(mappedBy = "modelType",cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Model> models;
 
 
     public String getName() {
@@ -29,19 +31,13 @@ public class ModelType {
         this.name = name;
     }
 
-    public Long getId() {
-        return id;
+    public Long getModelTypeId() {
+        return modelTypeId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setModelTypeId(Long modelTypeId) {
+        this.modelTypeId = modelTypeId;
     }
 
-    public List<Model> getModels() {
-        return models;
-    }
 
-    public void setModels(List<Model> models) {
-        this.models = models;
-    }
 }

@@ -20,8 +20,8 @@ public class Location {
     @Column(name = "country")
     private String country;
 
-    @OneToMany(targetEntity = Manufacturer.class,cascade = CascadeType.ALL)
-    @JoinColumn(name = "location_id")
+    @OneToMany(mappedBy = "location",targetEntity = Manufacturer.class,cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Manufacturer> manufacturers;
 
 
@@ -49,11 +49,5 @@ public class Location {
         this.locationId = id;
     }
 
-    public List<Manufacturer> getManufacturers() {
-        return manufacturers;
-    }
 
-    public void setManufacturers(List<Manufacturer> manufacturers) {
-        this.manufacturers = manufacturers;
-    }
 }

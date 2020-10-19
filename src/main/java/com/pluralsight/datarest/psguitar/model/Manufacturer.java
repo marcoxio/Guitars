@@ -27,10 +27,12 @@ public class Manufacturer {
     private BigDecimal averageYearlySales;
     private Boolean active;
 
-    @OneToMany(mappedBy = "manufacturer", cascade = CascadeType.ALL)
-    private List<Model> models = new ArrayList<Model>();
+    @OneToMany(cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Model> models;
 
     @ManyToOne
+    @JoinColumn(name = "location_id")
     private Location location;
 
     public void setId(Long manufacturerId) {
@@ -75,14 +77,6 @@ public class Manufacturer {
 
     public void setActive(Boolean active) {
         this.active = active;
-    }
-
-    public List<Model> getModels() {
-        return models;
-    }
-
-    public void setModels(List<Model> models) {
-        this.models = models;
     }
 
     public Location getLocation() {

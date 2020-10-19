@@ -1,34 +1,38 @@
 package com.pluralsight.datarest.psguitar.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
+@Table(name = "models")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Model {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @Column(name = "model_id")
+    private Long modelId;
 
     private String name;
     private BigDecimal price;
     private int frets;
 
-    @Column(name = "WOODTYPE")
+    @Column(name = "wood_type")
     private String woodType;
 
-    @Column(name = "YEARFIRSTMADE")
+    @Column(name = "year_first_made")
     private Date yearFirstMade;
 
     @ManyToOne
-    @JoinColumn(name = "MANUFACTURER_ID")
+    @JoinColumn(name = "manufacturer_id")
     private Manufacturer manufacturer;
 
     @ManyToOne
-    @JoinColumn(name = "MODELTYPE_ID")
+    @JoinColumn(name = "model_type_id")
     private ModelType modelType;
 
     public String getName() {
@@ -79,8 +83,12 @@ public class Model {
         this.modelType = modelType;
     }
 
-    public Long getId() {
-        return id;
+    public Long getModelId() {
+        return modelId;
+    }
+
+    public void setModelId(Long modelId) {
+        this.modelId = modelId;
     }
 
     public Manufacturer getManufacturer() {
