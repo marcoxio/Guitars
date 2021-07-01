@@ -6,21 +6,18 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-@Table(name = "model_types")
+@Entity(name="MODELTYPE")
 public class ModelType {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    @Column(name = "model_type_id")
-    private Long modelTypeId;
+    private Long id;
 
-    @Column(name = "name")
     private String name;
 
-    @OneToMany(mappedBy = "modelType",cascade = CascadeType.ALL)
-    @JsonIgnore
-    private List<Model> models;
+    @OneToMany(cascade=CascadeType.ALL)
+    @JoinColumn(name="MODELTYPE_ID")
+    private List<Model> models = new ArrayList<Model>();
 
 
     public String getName() {
@@ -31,12 +28,16 @@ public class ModelType {
         this.name = name;
     }
 
-    public Long getModelTypeId() {
-        return modelTypeId;
+    public List<Model> getModels() {
+        return models;
     }
 
-    public void setModelTypeId(Long modelTypeId) {
-        this.modelTypeId = modelTypeId;
+    public void setModels(List<Model> models) {
+        this.models = models;
+    }
+
+    public Long getId() {
+        return id;
     }
 
 

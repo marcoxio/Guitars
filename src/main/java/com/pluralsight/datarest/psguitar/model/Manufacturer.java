@@ -9,43 +9,33 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "manufacturers")
+@NamedNativeQuery(name = "Manufacturer.getAllThatSellAcoustics",
+        query = "SELECT m.id, m.name, m.foundedDate, m.averageYearlySales, m.location_id as headquarters_id, m.active "
+                + "FROM Manufacturer m "
+                + "LEFT JOIN Model mod ON (m.id = mod.manufacturer_id) "
+                + "LEFT JOIN ModelType mt ON (mt.id = mod.modeltype_id) "
+                + "WHERE (mt.name = ?)", resultClass = Manufacturer.class)
 public class Manufacturer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "manufacturer_id")
-    private Long manufacturerId;
+    private Long id;
 
-    @Column(name = "name")
     private String name;
 
-    @Column(name="founded_date")
+    @Column(name="FOUNDEDDATE")
     private Date foundedDate;
 
-    @Column(name="average_yearly_sales")
+    @Column(name="AVERAGEYEARLYSALES")
     private BigDecimal averageYearlySales;
     private Boolean active;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JsonIgnore
-    private List<Model> models;
+    @JoinColumn(name="manufacturer_id")
+    private List<Model> models = new ArrayList<Model>();
 
     @ManyToOne
-    @JoinColumn(name = "location_id")
     private Location location;
-
-    public void setId(Long manufacturerId) {
-        this.manufacturerId = manufacturerId;
-    }
-
-    public Long getManufacturerId() {
-        return manufacturerId;
-    }
-
-    public void setManufacturerId(Long manufacturerId) {
-        this.manufacturerId = manufacturerId;
-    }
 
     public String getName() {
         return name;
@@ -71,12 +61,12 @@ public class Manufacturer {
         this.averageYearlySales = averageYearlySales;
     }
 
-    public Boolean getActive() {
-        return active;
+    public List<Model> getModels() {
+        return models;
     }
 
-    public void setActive(Boolean active) {
-        this.active = active;
+    public void setModels(List<Model> models) {
+        this.models = models;
     }
 
     public Location getLocation() {
@@ -85,5 +75,21 @@ public class Manufacturer {
 
     public void setLocation(Location location) {
         this.location = location;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 }

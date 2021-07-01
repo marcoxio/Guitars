@@ -7,22 +7,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "locations")
 public class Location {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    @Column(name = "location_id")
-    private Long locationId;
+    private Long id;
 
-    @Column(name = "state")
     private String state;
 
-    @Column(name = "country")
     private String country;
 
-    @OneToMany(mappedBy = "location",targetEntity = Manufacturer.class,cascade = CascadeType.ALL)
-    @JsonIgnore
-    private List<Manufacturer> manufacturers;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name="LOCATION_ID")
+    private List<Manufacturer> manufacturers = new ArrayList<Manufacturer>();
 
 
     public String getState() {
@@ -41,12 +37,16 @@ public class Location {
         this.country = country;
     }
 
-    public Long getId() {
-        return locationId;
+    public List<Manufacturer> getManufacturers() {
+        return manufacturers;
     }
 
-    public void setId(Long id) {
-        this.locationId = id;
+    public void setManufacturers(List<Manufacturer> manufacturers) {
+        this.manufacturers = manufacturers;
+    }
+
+    public Long getId() {
+        return id;
     }
 
 

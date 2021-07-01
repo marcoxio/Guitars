@@ -8,31 +8,28 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
-@Table(name = "models")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@NamedQuery(name="Model.findAllModelsByType", query="select m from Model m where m.modelType.name = :name")
 public class Model {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "model_id")
-    private Long modelId;
+    private Long id;
 
     private String name;
     private BigDecimal price;
     private int frets;
 
-    @Column(name = "wood_type")
+    @Column(name="WOODTYPE")
     private String woodType;
 
-    @Column(name = "year_first_made")
+    @Column(name="YEARFIRSTMADE")
     private Date yearFirstMade;
 
     @ManyToOne
-    @JoinColumn(name = "manufacturer_id")
     private Manufacturer manufacturer;
 
     @ManyToOne
-    @JoinColumn(name = "model_type_id")
+    @JoinColumn(name="MODELTYPE_ID")
     private ModelType modelType;
 
     public String getName() {
@@ -75,6 +72,14 @@ public class Model {
         this.yearFirstMade = yearFirstMade;
     }
 
+    public Manufacturer getManufacturer() {
+        return manufacturer;
+    }
+
+    public void setManufacturer(Manufacturer manufacturer) {
+        this.manufacturer = manufacturer;
+    }
+
     public ModelType getModelType() {
         return modelType;
     }
@@ -83,19 +88,7 @@ public class Model {
         this.modelType = modelType;
     }
 
-    public Long getModelId() {
-        return modelId;
-    }
-
-    public void setModelId(Long modelId) {
-        this.modelId = modelId;
-    }
-
-    public Manufacturer getManufacturer() {
-        return manufacturer;
-    }
-
-    public void setManufacturer(Manufacturer manufacturer) {
-        this.manufacturer = manufacturer;
+    public Long getId() {
+        return id;
     }
 }

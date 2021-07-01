@@ -4,10 +4,15 @@ import com.pluralsight.datarest.psguitar.model.Location;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Repository
 public class LocationRepository {
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     private final LocationJPARepository locationJPARepository;
 
@@ -20,34 +25,43 @@ public class LocationRepository {
      * Create
      */
     public Location create(Location loc) {
-        return locationJPARepository.save(loc);
+        entityManager.persist(loc);
+        entityManager.flush();
+        return loc;
     }
 
     /**
      * Update
      */
     public Location update(Location loc) {
-       return locationJPARepository.saveAndFlush(loc);
+        loc = entityManager.merge(loc);
+        entityManager.flush();
+        return loc;
     }
 
     /**
      * Delete
      */
-    public void delete(Long loc) {
-       locationJPARepository.getOne(loc);
+    public void delete(Location loc) {
+        entityManager.remove(loc);
+        entityManager.flush();
     }
 
     /**
      * Find
      */
     public Location find(Long id) {
-        return locationJPARepository.getOne(id);
+        return entityManager.find(Location.class, id);
     }
 
     /**
-     * List
+     * Custom finder
      */
-    public List<Location> list() {
-        return locationJPARepository.findAll();
+    public List<Location> getLocationByStateName(String name) {
+        @SuppressWarnings("unchecked")
+        List<Location> locs = entityManager
+                .createQuery("select l from Location l where l.state like :state")
+                .setParameter("state", name + "%").getResultList();
+        return locs;
     }
 }

@@ -4,46 +4,46 @@ import com.pluralsight.datarest.psguitar.model.ModelType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Repository
 public class ModelTypeRepository {
 
-    @Autowired
-    private ModelTypeJpaRepository modelTypeJpaRepository;
+    @PersistenceContext
+    private EntityManager entityManager;
 
     /**
      * Create
      */
     public ModelType create(ModelType mt) {
-        return modelTypeJpaRepository.saveAndFlush(mt);
+        entityManager.persist(mt);
+        entityManager.flush();
+        return mt;
     }
 
     /**
      * Update
      */
     public ModelType update(ModelType mt) {
-        return modelTypeJpaRepository.saveAndFlush(mt);
+        mt = entityManager.merge(mt);
+        entityManager.flush();
+        return mt;
     }
 
     /**
      * Delete
      */
-    public void delete(Long mt) {
-        modelTypeJpaRepository.getOne(mt);
+    public void delete(ModelType mt) {
+        entityManager.remove(mt);
+        entityManager.flush();
     }
 
     /**
      * Find
      */
     public ModelType find(Long id) {
-        return modelTypeJpaRepository.getOne(id);
-    }
-
-    /**
-     * List
-     */
-    public List<ModelType> list() {
-        return modelTypeJpaRepository.findAll();
+        return entityManager.find(ModelType.class, id);
     }
 }
